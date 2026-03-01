@@ -4,7 +4,6 @@ const resultDiv = document.getElementById("result");
 const shortUrlText = document.getElementById("shortUrlText");
 const copyBtn = document.getElementById("copyBtn");
 
-const BASE_URL = "https://ansh-tiwari001.github.io/quicklink";
 /* Generate Random Code */
 function generateCode(length = 6) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -39,7 +38,7 @@ function isValidURL(url) {
 
 /* Form Submit (Shorten) */
 form.addEventListener("submit", (e) => {
-    e.preventDefault(); // prevent reload
+    e.preventDefault();
 
     const longUrl = longUrlInput.value.trim();
 
@@ -58,11 +57,13 @@ form.addEventListener("submit", (e) => {
 
     saveLink(code, longUrl);
 
-    const shortUrl = `${BASE_URL}/?c=${code}`;
+    // ✅ Dynamic URL (Works on GitHub Pages after repo rename)
+    const shortUrl = window.location.origin + window.location.pathname + "?c=" + code;
+
     shortUrlText.textContent = shortUrl;
     resultDiv.classList.remove("hidden");
 
-    longUrlInput.value = ""; // clear input after success
+    longUrlInput.value = "";
 });
 
 /* Copy Button */
