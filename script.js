@@ -4,7 +4,6 @@ const resultDiv = document.getElementById("result");
 const shortUrlText = document.getElementById("shortUrlText");
 const copyBtn = document.getElementById("copyBtn");
 
-/* Generate Random Code */
 function generateCode(length = 6) {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let code = "";
@@ -14,19 +13,16 @@ function generateCode(length = 6) {
     return code;
 }
 
-/* Get Stored Links */
 function getStoredLinks() {
     return JSON.parse(localStorage.getItem("shortLinks")) || {};
 }
 
-/* Save Link */
 function saveLink(code, url) {
     const links = getStoredLinks();
     links[code] = url;
     localStorage.setItem("shortLinks", JSON.stringify(links));
 }
 
-/* Validate URL */
 function isValidURL(url) {
     try {
         new URL(url);
@@ -36,7 +32,6 @@ function isValidURL(url) {
     }
 }
 
-/* Form Submit (Shorten) */
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -50,14 +45,12 @@ form.addEventListener("submit", (e) => {
     const links = getStoredLinks();
     let code;
 
-    // Collision check
     do {
         code = generateCode();
     } while (links[code]);
 
     saveLink(code, longUrl);
 
-    // ✅ Dynamic URL (Works on GitHub Pages after repo rename)
     const shortUrl = window.location.origin + window.location.pathname + "?c=" + code;
 
     shortUrlText.textContent = shortUrl;
@@ -66,7 +59,6 @@ form.addEventListener("submit", (e) => {
     longUrlInput.value = "";
 });
 
-/* Copy Button */
 copyBtn.addEventListener("click", async () => {
     const text = shortUrlText.textContent;
 
@@ -83,7 +75,6 @@ copyBtn.addEventListener("click", async () => {
     }
 });
 
-/* Redirect Handler */
 (function handleRedirect() {
     const params = new URLSearchParams(window.location.search);
     const code = params.get("c");
